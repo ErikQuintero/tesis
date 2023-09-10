@@ -37,7 +37,7 @@ public class Flecha{
 
 	//Metodo que devuelve una representacion en cadena de nuestras aristas
 	public String toString(){
-		String arista = this.extremo1.getID() + this.extremo2.getID();
+		String arista = "(" + this.extremo1.getID() + "," + this.extremo2.getID() + ")";
 		return arista;
 	}
 

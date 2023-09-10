@@ -40,24 +40,6 @@ public class Digrafica implements Cloneable{
       return new Digrafica(vertices2, flechas2);
     }
 
-    //Metodo que nos devuelva una representacion en cadena de la grafica
-	public String toString(){
-		//Crea una representacion en cadena del conjunto de vertices
-		String vert = "{";
-		for(VerticeD v : this.vertices){
-			vert = vert + ", " + v.toString();
-		}
-		vert = vert + "}";
-
-		//Crea una representacion en cadena del conjunto de las aristas
-		String flech = "{";
-		for(Flecha f : this.flechas){
-			flech = flech + ", " + f.toString();
-		}
-		flech = flech + "}";
-		return "El conjunto de vertices es: " +  vert + "\n" + "El conjunto de flechas es: " + flech;
-	}
-
     //Metodo que elimina un vertice de la grafica
 	public void eliminaV(VerticeD v){
 		this.vertices.remove(v);
@@ -153,5 +135,35 @@ public class Digrafica implements Cloneable{
             return false;
         }
     }
+
+	//Metodo que nos devuelva una representacion en cadena de la grafica
+	public String toString(){
+		//Crea una representacion en cadena del conjunto de vertices
+		String vert = "{";
+		int cont = 0;
+		for(VerticeD v : this.vertices){
+			if(cont == 0){
+				vert = vert + v.toString();
+			}else{
+				vert = vert + ", " + v.toString();
+			}
+			cont++;
+		}
+		vert = vert + "}";
+		cont = 0;
+
+		//Crea una representacion en cadena del conjunto de las aristas
+		String flech = "{";
+		for(Flecha f : this.flechas){
+			if(cont == 0){
+				flech = flech + f.toString();
+			}else{
+				flech = flech + ", " + f.toString();
+			}
+			cont++;
+		}
+		flech = flech + "}";
+		return "El conjunto de vertices es: " +  vert + "\n" + "El conjunto de flechas es: " + flech;
+	}
 
 }
