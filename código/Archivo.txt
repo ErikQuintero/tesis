@@ -1,0 +1,12 @@
+aaaa
+a,b,c,d,e,f,g,h,i,j
+b,a
+b,c
+d,c
+d,e
+c,j
+j,i
+i,h
+e,h
+g,f
+h,g
