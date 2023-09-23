@@ -8,6 +8,11 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
+import java.awt.Color;
+import java.util.function.Function;
+import java.awt.Paint;
+import java.awt.Dimension;
+import java.awt.geom.Point2D;
 
 public class Pruebas{
 
@@ -64,6 +69,9 @@ public class Pruebas{
 			cont++;
 		}
 
+		ArrayList<VerticeD> nuc = d.getNucleo();
+		System.out.println(nuc);
+
         // Crear un layout dirigido
 		CircleLayout<String, String> layout = new CircleLayout<>(grafo);
 
@@ -72,6 +80,17 @@ public class Pruebas{
 
         // Configurar un decorador para etiquetas
         visualizador.getRenderContext().setVertexLabelTransformer(v -> v.toString());
+
+		////////////////////////
+		Function<String, Paint> vertexPaintFunction = v -> {
+			for (VerticeD v1 : nuc) {
+	   			if (v.equals(v1.identificador)) {
+		   			return Color.BLUE;
+	   			}
+   			}
+		   return Color.RED;
+        };
+		visualizador.getRenderContext().setVertexFillPaintTransformer(vertexPaintFunction::apply);
 
         // Crear un frame para la visualización
         JFrame frame = new JFrame("Visualizacion de Grafo Dirigido");
@@ -115,5 +134,7 @@ public class Pruebas{
        }
        return elementos;
    }
+
+
 
 }

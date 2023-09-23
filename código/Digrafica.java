@@ -75,7 +75,6 @@ public class Digrafica implements Cloneable{
         if(this.vertices.size() == 0){
 			return nucleo;
         }else{
-			System.out.println("aa");
             ArrayList<VerticeD> ex0 = new ArrayList<VerticeD>();
             ArrayList<VerticeD> eliminados = new ArrayList<VerticeD>();
             for(VerticeD aux : this.vertices){
