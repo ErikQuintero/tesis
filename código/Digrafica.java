@@ -40,19 +40,32 @@ public class Digrafica implements Cloneable{
 	    * @return Una nueva instancia de Digrafica que es una copia de la gráfica actual.
     */
     public Digrafica clonar(){
-      ArrayList<VerticeD> vertices2 = new ArrayList<VerticeD>();
-      for(VerticeD v : this.vertices){
-          String nombre = v.identificador;
-          VerticeD v2 = new VerticeD(nombre);
-          vertices2.add(v2);
-      }
-      ArrayList<Flecha> flechas2 = new ArrayList<Flecha>();
-      for(Flecha a : this.flechas){
-          VerticeD v1 = a.extremo1;
-          VerticeD v2 = a.extremo2;
-          Flecha a2 = new Flecha(v1, v2);
-          flechas2.add(a2);
-      }
+		ArrayList<VerticeD> vertices2 = new ArrayList<VerticeD>();
+      	ArrayList<Flecha> flechas2 = new ArrayList<Flecha>();
+
+	    // Clonar los vértices y agregarlos a vertices2
+	    for (VerticeD v : this.vertices) {
+	    	VerticeD v2 = new VerticeD(v.identificador);
+			vertices2.add(v2);
+		}
+
+	    // Clonar las flechas y agregarlas a flechas2
+	    for (Flecha a : this.flechas) {
+	        // Encontrar los vértices correspondientes en vertices2
+	        VerticeD v1 = null;
+	        VerticeD v2 = null;
+	        for (VerticeD v : vertices2) {
+	            if (v.identificador.equals(a.extremo1.identificador)) {
+	                v1 = v;
+	            }
+	            if (v.identificador.equals(a.extremo2.identificador)) {
+	                v2 = v;
+	            }
+	        }
+
+	    	Flecha a2 = new Flecha(v1, v2);
+	    	flechas2.add(a2);
+	    }
       return new Digrafica(vertices2, flechas2);
     }
 
@@ -97,9 +110,8 @@ public class Digrafica implements Cloneable{
 	}
 
 	/**
-		* Método auxiliar utilizado para obtener el núcleo de la gráfica.
+		* Método auxiliar utilizado para obtener el núcleo de una digráfica aciclica.
 		* Este método se encarga de encontrar y eliminar los vértices que forman parte del núcleo de la gráfica.
-		* Un vértice se considera parte del núcleo si no tiene flechas entrantes.
 		*
 		* @param nucleo La lista que almacenará los vértices que forman el núcleo de la gráfica.
 		* @return La lista de vértices que forman el núcleo de la gráfica.
@@ -128,13 +140,13 @@ public class Digrafica implements Cloneable{
             for(VerticeD aux4 : eliminados){
                 this.eliminaV(aux4);
             }
-            return this.getNucleoAux(nucleo);
+            return this.getNucleoAciAux(nucleo);
         }
     }
 
 	/**
-	    * Método que encuentra el núcleo de la gráfica.
-	    * El núcleo de una gráfica es un conjunto de vértices que no tienen flechas entrantes y pueden ser alcanzados por otros vértices de la gráfica.
+	    * Método que encuentra el núcleo de una digráfica aciclica.
+	    * El núcleo de una gráfica es un conjunto de vértices absorbente y dominante
 	    *
 	    * @return Una lista de vértices que forman el núcleo de la gráfica.
     */
@@ -143,6 +155,68 @@ public class Digrafica implements Cloneable{
 		Digrafica d2 = this.clonar();
         return d2.getNucleoAciAux(nucleo);
     }
+
+	/**
+		* Método auxiliar utilizado para obtener el núcleo de una digráfica simetrica.
+		* Este método se encarga de encontrar y eliminar los vértices que forman parte del núcleo de la gráfica.
+		*
+		* @param nucleo La lista que almacenará los vértices que forman el núcleo de la gráfica.
+		* @return La lista de vértices que forman el núcleo de la gráfica.
+	*/
+	public ArrayList<VerticeD> getNucleoSimeAux(ArrayList<VerticeD> nucleo){
+		if (this.vertices.size() == 0) {
+        	return nucleo;
+    	} else {
+        	VerticeD vi = this.vertices.get(0);
+        	if (!this.veificaVecinoLista(nucleo, vi)) {
+            	nucleo.add(vi); // Agregar vi nuevamente si no es vecino
+        	}
+			this.vertices.remove(vi);
+        	return this.getNucleoSimeAux(nucleo);
+    	}
+	}
+
+	/**
+		* Obtiene el núcleo de una digráfica simétrica.
+		* El núcleo de una digráfica simétrica es un conjunto de vértices que no tienen vecinos en común.
+		*
+		* @return Una lista de vértices que forman el núcleo de la digráfica simétrica.
+ 	*/
+	public ArrayList<VerticeD> getNucleoSime(){
+		ArrayList<VerticeD> nucleo = new ArrayList<VerticeD>();
+		Digrafica d2 = this.clonar();
+		VerticeD v1 = d2.vertices.get(0);
+		d2.vertices.remove(v1);
+		nucleo.add(v1);
+        return d2.getNucleoSimeAux(nucleo);
+	}
+
+	/**
+		* Verifica si un vértice es vecino de algún vértice en una lista de vértices.
+		*
+		* @param verticesAux La lista de vértices en la que se buscarán los vecinos.
+		* @param auxiliar El vértice cuya vecindad se verificará.
+		* @return true si el vértice es vecino de algún vértice en la lista, false en caso contrario.
+	*/
+	public boolean veificaVecinoLista(ArrayList<VerticeD> verticesAux, VerticeD auxiliar){
+		boolean vecino = false;
+
+		// Verifica si el vértice es vecino de algún vértice en la lista a través de sus vecinos de entrada
+		for(VerticeD x : verticesAux){
+			if(x.exVecinos.contains(auxiliar)){
+				vecino = true;
+			}
+		}
+
+		// Verifica si el vértice es vecino de algún vértice en la lista a través de sus vecinos de salida
+		for(VerticeD y : verticesAux){
+			if(y.inVecinos.contains(auxiliar)){
+				vecino = true;
+			}
+		}
+
+		return vecino;
+	}
 
 	/**
 	    * Método que verifica si un conjunto de vértices es absorbente en la gráfica.

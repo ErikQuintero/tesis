@@ -53,7 +53,7 @@ public class Flecha{
 	    * @param a La flecha con la que se compara la flecha actual.
 	    * @return true si las flechas son iguales, false en caso contrario.
     */
-	public boolean equals(Arista a){
+	public boolean equals(Flecha a){
 		if(this.extremo1.equals(a.getEX1())&&this.extremo2.equals(a.getEX2())){
 			return true;
 		}else{
