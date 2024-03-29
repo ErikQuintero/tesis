@@ -2,23 +2,8 @@ import java.util.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import javax.swing.JFrame;
-import edu.uci.ics.jung.algorithms.layout.CircleLayout;
-import edu.uci.ics.jung.graph.DirectedSparseGraph;
-import edu.uci.ics.jung.graph.Graph;
-import edu.uci.ics.jung.visualization.VisualizationViewer;
-import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
-import java.awt.Color;
-import java.util.function.Function;
-import java.awt.Paint;
-import java.awt.Dimension;
-import java.awt.geom.Point2D;
 
-/**
-	* Clase de prueba que demuestra la construcción y visualización de un grafo dirigido utilizando la biblioteca JUNG.
-	* Esta clase incluye métodos para leer datos de un archivo, construir un grafo dirigido y visualizarlo en una ventana.
-*/
-public class Pruebas{
+public class PruebasAux{
 
 	/**
 		* Método principal que inicia la aplicación.
@@ -30,64 +15,17 @@ public class Pruebas{
 	*/
 	public static void main (String[] args){
 
-		// Obtener un objeto Digrafica con datos de vértices y flechas
-		Digrafica d = getDigrafica();
+        Digrafica d = getDigrafica();
+		System.out.println(d);
+		//Stack<VerticeD> alcansables = d.dfs();
+		//
+		ArrayList<ArrayList<VerticeD>> compos = d.kosaraju();
 
-		// Crear una grafica dirigida
-		Graph<String, String> grafo = new DirectedSparseGraph<>();
+		System.out.println(compos);
 
-		// Agregar vértices al grafo
-		for(VerticeD v1 : d.vertices){
-			grafo.addVertex(v1.identificador);
-		}
-
-		// Imprimir las flechas y vértices obtenidos de Digrafica (para depuración)
-		System.out.println("___________________________");
-		System.out.println(d.flechas);
-		System.out.println("___________________________");
-		System.out.println(d.vertices);
-
-		// Agregar flechas al grafo y asignar identificadores a las flechas
-		int cont = 1;
-		for(Flecha fle1 : d.flechas){
-			String faux = fle1.extremo1 + "," + fle1.extremo2;
-			String[] a = faux.split(",");
-			String saux = "Flecha";
-			saux = saux + cont;
-			grafo.addEdge(saux, a[0], a[1]);
-			cont++;
-		}
-
-		// Obtener el núcleo de acuerdo a alguna lógica (en este caso se usa getNucleoAci())
-		ArrayList<VerticeD> nuc = d.getNucleoBiFC();
-		System.out.println(nuc);
-
-		// Crear un layout circular para la grafica
-		CircleLayout<String, String> layout = new CircleLayout<>(grafo);
-
-		// Crear un visualizador de la grafica
-		VisualizationViewer<String, String> visualizador = new VisualizationViewer<>(layout);
-
-		// Configurar un decorador para las etiquetas de los vértices
-        visualizador.getRenderContext().setVertexLabelTransformer(v -> v.toString());
-
-		// Configurar la función para pintar los vértices, azules si pertenecen al nucleo, rojo en otro caso
-		Function<String, Paint> vertexPaintFunction = v -> {
-			for (VerticeD v1 : nuc) {
-	   			if (v.equals(v1.identificador)) {
-		   			return Color.BLUE;
-	   			}
-   			}
-			return Color.RED;
-		};
-		visualizador.getRenderContext().setVertexFillPaintTransformer(vertexPaintFunction::apply);
-
-		/// Crear un frame para la visualización de la grafica
-		JFrame frame = new JFrame("Visualizacion de Grafo Dirigido");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().add(visualizador);
-		frame.pack();
-		frame.setVisible(true);
+		System.out.println("______________________");
+		ArrayList<VerticeD> terminal = d.obtenerCompoTerminal();
+		System.out.println(terminal);
 	}
 
 	/**
@@ -159,7 +97,7 @@ public class Pruebas{
 	*/
    	public static Digrafica getDigrafica(){
 		// Nombre del archivo del cual se leerán los datos
-		String nombreArchivo = "Archivo4.txt";
+		String nombreArchivo = "Archivo3.txt";
 
 		// Obtener la lista de vértices y flechas desde el archivo
 	   	List<String> vertex = getVertices(nombreArchivo);

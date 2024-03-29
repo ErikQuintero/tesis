@@ -13,6 +13,7 @@ public class VerticeD{
 	ArrayList<VerticeD> inVecinos = new ArrayList<VerticeD>(); //Una herramienta que nos servira mas tarde
     ArrayList<VerticeD> exVecinos = new ArrayList<VerticeD>();
 	boolean absorbido = false;
+	boolean visitado = false;
 
 	/**
 	    * Constructor de la clase VerticeD.
@@ -97,5 +98,4 @@ public class VerticeD{
 	public String toString(){
 		return identificador;
 	}
-
 }
