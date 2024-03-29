@@ -458,4 +458,34 @@ public class Digrafica{
 		return terminal;
 	}
 
+	/**
+		* Obtiene el núcleo de la digráfica según la opción especificada.
+		* La opción determina el método utilizado para calcular el núcleo.
+		*
+		* @param eleccion La opción que indica el método a utilizar para obtener el núcleo.
+		* @return El núcleo de la digráfica, que es un conjunto de vértices.
+		*         Si la elección no es válida o no se encuentra un método correspondiente, devuelve null.
+	*/
+	public ArrayList<VerticeD> getNucleo(int eleccion){
+		ArrayList<VerticeD> nucleo = new ArrayList<VerticeD>();
+		switch (eleccion) {
+            case 1:
+				nucleo = this.getNucleoAci();
+                break;
+            case 2:
+				nucleo = this.getNucleoSime();
+                break;
+            case 3:
+				nucleo = this.getNucleoAci();//provicional
+                break;
+            case 4:
+				nucleo = this.getNucleoBiFC();
+                break;
+            default:
+				nucleo = null;
+                break;
+        }
+		return nucleo;
+	}
+
 }

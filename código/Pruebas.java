@@ -30,8 +30,17 @@ public class Pruebas{
 	*/
 	public static void main (String[] args){
 
+		Scanner scanner = new Scanner(System.in);
+
+		System.out.println("Escoje el algoritmo que deseas ejecutar");
+		System.out.println("1) Digrafica aciclica");
+		System.out.println("2) Digrafica simetrica");
+		System.out.println("3) Digrafica bipartita");
+		System.out.println("4) Digrafica bipartita fuertemente conexa");
+		int eleccion = scanner.nextInt();
+
 		// Obtener un objeto Digrafica con datos de vértices y flechas
-		Digrafica d = getDigrafica();
+		Digrafica d = getDigrafica(eleccion);
 
 		// Crear una grafica dirigida
 		Graph<String, String> grafo = new DirectedSparseGraph<>();
@@ -59,7 +68,7 @@ public class Pruebas{
 		}
 
 		// Obtener el núcleo de acuerdo a alguna lógica (en este caso se usa getNucleoAci())
-		ArrayList<VerticeD> nuc = d.getNucleoBiFC();
+		ArrayList<VerticeD> nuc = d.getNucleo(eleccion);
 		System.out.println(nuc);
 
 		// Crear un layout circular para la grafica
@@ -157,9 +166,9 @@ public class Pruebas{
 		*
 		* @return Un objeto Digrafica construido a partir de los datos del archivo.
 	*/
-   	public static Digrafica getDigrafica(){
+   	public static Digrafica getDigrafica(int eleccion){
 		// Nombre del archivo del cual se leerán los datos
-		String nombreArchivo = "Archivo4.txt";
+		String nombreArchivo = devuelveNomArchivo(eleccion);
 
 		// Obtener la lista de vértices y flechas desde el archivo
 	   	List<String> vertex = getVertices(nombreArchivo);
@@ -200,4 +209,36 @@ public class Pruebas{
 		// Construir y retornar un objeto Digrafica con los vértices y las flechas construidas
 	   	return new Digrafica(vertices,flechas);
    	}
+
+	/**
+		* Devuelve el nombre del archivo correspondiente según la elección especificada.
+		* La elección determina el tipo de archivo que se seleccionará.
+		*
+		* @param eleccion La opción que indica el tipo de archivo.
+		* @return El nombre del archivo seleccionado.
+	*/
+	public static String devuelveNomArchivo(int eleccion){
+		String nombreArchivo = "";
+
+		// Utilizar la estructura switch para manejar diferentes casos
+        switch (eleccion) {
+            case 1:
+				nombreArchivo = "Archivo.txt";
+                break;
+            case 2:
+				nombreArchivo = "Archivo2.txt";
+                break;
+            case 3:
+				nombreArchivo = "Archivo3.txt";
+                break;
+            case 4:
+				nombreArchivo = "Archivo4.txt";
+                break;
+            default:
+				nombreArchivo = "Archivo.txt";
+                break;
+        }
+		return nombreArchivo;
+	}
+
 }
