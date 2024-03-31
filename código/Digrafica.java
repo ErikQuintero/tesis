@@ -109,6 +109,28 @@ public class Digrafica{
 		}
 	}
 
+	public Digrafica getInducida(ArrayList<VerticeD> conjunto){
+		Digrafica inducida = this.clonar();
+		ArrayList<VerticeD> conjuntoAux = new ArrayList<VerticeD>();
+		for(VerticeD aux : inducida.vertices){
+			for(VerticeD aux2 : conjunto){
+				if(aux.equals(aux2)){
+					conjuntoAux.add(aux);
+				}
+			}
+		}
+		ArrayList<VerticeD> conjuntoAuxiliar = new ArrayList<VerticeD>();
+		for(VerticeD v : inducida.vertices){
+			if(!conjuntoAux.contains(v)){
+				conjuntoAuxiliar.add(v);
+			}
+		}
+		for(VerticeD v2 : conjuntoAuxiliar){
+			inducida.eliminaV(v2);
+		}
+		return inducida;
+	}
+
 	/**
 		* Método auxiliar utilizado para obtener el núcleo de una digráfica aciclica.
 		* Este método se encarga de encontrar y eliminar los vértices que forman parte del núcleo de la gráfica.
@@ -200,7 +222,10 @@ public class Digrafica{
 	public ArrayList<VerticeD> getNucleoBiFCAux(ArrayList<VerticeD> nucleo){
 		if (this.vertices.size() == 0) {
         	return nucleo;
-    	} else {
+    	} else if(this.vertices.size() == 1){
+			nucleo.add(this.vertices.get(0));
+			return nucleo;
+		}else{
         	VerticeD vi = this.vertices.get(0);
 			nucleo.add(vi);
 			for(VerticeD vAux : vi.inVecinos){
@@ -225,6 +250,58 @@ public class Digrafica{
 		ArrayList<VerticeD> nucleo = new ArrayList<VerticeD>();
 		Digrafica d2 = this.clonar();
         return d2.getNucleoSimeAux(nucleo);
+	}
+
+	/**
+		* Método auxiliar utilizado para encontrar el núcleo de una digráfica bipartita.
+		* Este método realiza una serie de pasos para calcular el núcleo, incluida la identificación de componentes fuertemente conexas terminales,
+		* la obtención de una digráfica inducida y la determinación del núcleo.
+		*
+		* @param nucleo La lista de vértices que representan el núcleo actual.
+		* @return El núcleo de la digráfica, que es un conjunto de vértices.
+	*/
+	public ArrayList<VerticeD> getNucleoBIAux(ArrayList<VerticeD> nucleo){
+		if(this.vertices.size() == 0){
+			return nucleo;
+		}
+		ArrayList<ArrayList<VerticeD>> componentes = this.kosaraju();
+		if(componentes.size() == 1){
+			nucleo.add((componentes.get(0)).get(0));
+			return nucleo;
+		}
+		ArrayList<VerticeD> terminal = this.obtenerCompoTerminal();
+		Digrafica d = this.getInducida(terminal);
+		ArrayList<VerticeD> nucleoCompo = d.getNucleoBiFC();
+		ArrayList<VerticeD> eliminar = new ArrayList<VerticeD>();
+		for(VerticeD v1 : nucleoCompo){
+			VerticeD x = null;
+			for(VerticeD busca : this.vertices){
+				if(busca.equals(v1)){
+					nucleo.add(busca);
+					eliminar.add(busca);
+					x = busca;
+				}
+			}
+			for(VerticeD v2 : x.inVecinos){
+				eliminar.add(v2);
+			}
+		}
+		for(VerticeD v3 : eliminar){
+			this.eliminaV(v3);
+		}
+		return this.getNucleoBIAux(nucleo);
+	}
+
+	/**
+		* Obtiene el núcleo de la digráfica utilizando el algoritmo de Biconectividad Iterativa (BI).
+		* Este método crea una copia de la digráfica y luego llama al método auxiliar para obtener el núcleo.
+		*
+		* @return El núcleo de la digráfica, que es un conjunto de vértices.
+	*/
+	public ArrayList<VerticeD> getNucleoBI(){
+		ArrayList<VerticeD> nucleo = new ArrayList<VerticeD>();
+		Digrafica d2 = this.clonar();
+        return d2.getNucleoBIAux(nucleo);
 	}
 
 	/**
@@ -476,11 +553,14 @@ public class Digrafica{
 				nucleo = this.getNucleoSime();
                 break;
             case 3:
-				nucleo = this.getNucleoAci();//provicional
-                break;
-            case 4:
 				nucleo = this.getNucleoBiFC();
                 break;
+            case 4:
+				nucleo = this.getNucleoBI();
+                break;
+			case 5:
+				nucleo = this.getNucleoBI(); //pruebas provicional
+				break;
             default:
 				nucleo = null;
                 break;

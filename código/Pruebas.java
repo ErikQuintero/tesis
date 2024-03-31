@@ -35,8 +35,10 @@ public class Pruebas{
 		System.out.println("Escoje el algoritmo que deseas ejecutar");
 		System.out.println("1) Digrafica aciclica");
 		System.out.println("2) Digrafica simetrica");
-		System.out.println("3) Digrafica bipartita");
-		System.out.println("4) Digrafica bipartita fuertemente conexa");
+		System.out.println("3) Digrafica bipartita fuertemente conexa");
+		System.out.println("4) Digrafica bipartita");
+		System.out.println("5) Digrafica sin ciclos de longitud impar");
+
 		int eleccion = scanner.nextInt();
 
 		// Obtener un objeto Digrafica con datos de vértices y flechas
@@ -52,9 +54,9 @@ public class Pruebas{
 
 		// Imprimir las flechas y vértices obtenidos de Digrafica (para depuración)
 		System.out.println("___________________________");
-		System.out.println(d.flechas);
-		System.out.println("___________________________");
 		System.out.println(d.vertices);
+		System.out.println("___________________________");
+		System.out.println(d.flechas);
 
 		// Agregar flechas al grafo y asignar identificadores a las flechas
 		int cont = 1;
@@ -223,17 +225,20 @@ public class Pruebas{
 		// Utilizar la estructura switch para manejar diferentes casos
         switch (eleccion) {
             case 1:
-				nombreArchivo = "Archivo.txt";
+				nombreArchivo = "Aciclica.txt";
                 break;
             case 2:
-				nombreArchivo = "Archivo2.txt";
+				nombreArchivo = "Simetrica.txt";
                 break;
             case 3:
-				nombreArchivo = "Archivo3.txt";
+				nombreArchivo = "BipartitaFC.txt";
                 break;
             case 4:
-				nombreArchivo = "Archivo4.txt";
+				nombreArchivo = "Bipartita.txt";
                 break;
+			case 5:
+				nombreArchivo = "SinCiclosLI.txt";
+				break;
             default:
 				nombreArchivo = "Archivo.txt";
                 break;
