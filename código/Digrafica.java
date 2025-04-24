@@ -138,77 +138,77 @@ public class Digrafica{
 	}
 
 	/**
-* Método auxiliar utilizado para obtener el núcleo de una digráfica aciclica.
-		* Este método se encarga de encontrar y eliminar los vértices que forman parte del núcleo de la gráfica.
-		*
-		* @param nucleo La lista que almacenará los vértices que forman el núcleo de la gráfica.
-		* @return La lista de vértices que forman el núcleo de la gráfica.
+	* Método auxiliar utilizado para obtener el núcleo de una digráfica aciclica.
+	* Este método se encarga de encontrar y eliminar los vértices que forman parte del núcleo de la gráfica.
+	*
+	* @param nucleo La lista que almacenará los vértices que forman el núcleo de la gráfica.
+	* @return La lista de vértices que forman el núcleo de la gráfica.
 	*/
-    public ArrayList<VerticeD> getNucleoAciAux(ArrayList<VerticeD> nucleo){
-        if(this.vertices.size() == 0){
+    	public ArrayList<VerticeD> getNucleoAciAux(ArrayList<VerticeD> nucleo){
+        	if(this.vertices.size() == 0){
 			return nucleo;
-        }else{
-            ArrayList<VerticeD> ex0 = new ArrayList<VerticeD>();
-            ArrayList<VerticeD> eliminados = new ArrayList<VerticeD>();
-            for(VerticeD aux : this.vertices){
-                if(aux.getExGrado() == 0){
-                    ex0.add(aux);
-                    nucleo.add(aux);
-                }
-            }
-            if(ex0.size() == 0){
-                return nucleo;
-            }
-            for(VerticeD aux2 : ex0){
-                eliminados.add(aux2);
-                for(VerticeD aux3 : aux2.inVecinos){
-                    eliminados.add(aux3);
-                }
-            }
-            for(VerticeD aux4 : eliminados){
-                this.eliminaV(aux4);
-            }
-            return this.getNucleoAciAux(nucleo);
-        }
-    }
-
-	/**
-	    * Método que encuentra el núcleo de una digráfica aciclica.
-	    * El núcleo de una gráfica es un conjunto de vértices absorbente y dominante
-	    *
-	    * @return Una lista de vértices que forman el núcleo de la gráfica.
-    */
-    public ArrayList<VerticeD> getNucleoAci(){
-        ArrayList<VerticeD> nucleo = new ArrayList<VerticeD>();
-		Digrafica d2 = this.clonar();
-        return d2.getNucleoAciAux(nucleo);
-    }
-
-	/**
-		* Método auxiliar utilizado para obtener el núcleo de una digráfica simetrica.
-		* Este método se encarga de encontrar y eliminar los vértices que forman parte del núcleo de la gráfica.
-		*
-		* @param nucleo La lista que almacenará los vértices que forman el núcleo de la gráfica.
-		* @return La lista de vértices que forman el núcleo de la gráfica.
-	*/
-	public ArrayList<VerticeD> getNucleoSimeAux(ArrayList<VerticeD> nucleo){
-		if (this.vertices.size() == 0) {
-        	return nucleo;
-    	} else {
-        	VerticeD vi = this.vertices.get(0);
-        	if (!this.veificaVecinoLista(nucleo, vi)) {
-            	nucleo.add(vi); // Agregar vi nuevamente si no es vecino
+        	}else{
+            		ArrayList<VerticeD> ex0 = new ArrayList<VerticeD>();
+            		ArrayList<VerticeD> eliminados = new ArrayList<VerticeD>();
+            		for(VerticeD aux : this.vertices){
+                		if(aux.getExGrado() == 0){
+                    			ex0.add(aux);
+                    			nucleo.add(aux);
+                		}
+            		}
+            		if(ex0.size() == 0){
+                		return nucleo;
+            		}
+            		for(VerticeD aux2 : ex0){
+                		eliminados.add(aux2);
+                		for(VerticeD aux3 : aux2.inVecinos){
+                    			eliminados.add(aux3);
+                		}
+            		}
+            		for(VerticeD aux4 : eliminados){
+                		this.eliminaV(aux4);
+            		}
+            		return this.getNucleoAciAux(nucleo);
         	}
-			this.vertices.remove(vi);
-        	return this.getNucleoSimeAux(nucleo);
-    	}
 	}
 
 	/**
-		* Obtiene el núcleo de una digráfica simétrica.
-		* El núcleo de una digráfica simétrica es un conjunto de vértices que no tienen vecinos en común.
-		*
-		* @return Una lista de vértices que forman el núcleo de la digráfica simétrica.
+	* Método que encuentra el núcleo de una digráfica aciclica.
+	* El núcleo de una gráfica es un conjunto de vértices absorbente y dominante
+	*
+	* @return Una lista de vértices que forman el núcleo de la gráfica.
+    	*/
+    	public ArrayList<VerticeD> getNucleoAci(){
+        	ArrayList<VerticeD> nucleo = new ArrayList<VerticeD>();
+		Digrafica d2 = this.clonar();
+        	return d2.getNucleoAciAux(nucleo);
+    	}
+
+	/**
+	* Método auxiliar utilizado para obtener el núcleo de una digráfica simetrica.
+	* Este método se encarga de encontrar y eliminar los vértices que forman parte del núcleo de la gráfica.
+	*
+	* @param nucleo La lista que almacenará los vértices que forman el núcleo de la gráfica.
+	* @return La lista de vértices que forman el núcleo de la gráfica.
+	*/
+	public ArrayList<VerticeD> getNucleoSimeAux(ArrayList<VerticeD> nucleo){
+		if (this.vertices.size() == 0) {
+        		return nucleo;
+    		} else {
+        		VerticeD vi = this.vertices.get(0);
+        		if (!this.veificaVecinoLista(nucleo, vi)) {
+            			nucleo.add(vi); // Agregar vi nuevamente si no es vecino
+        		}
+			this.vertices.remove(vi);
+        		return this.getNucleoSimeAux(nucleo);
+    		}
+	}
+
+	/**
+	* Obtiene el núcleo de una digráfica simétrica.
+	* El núcleo de una digráfica simétrica es un conjunto de vértices que no tienen vecinos en común.
+	*
+	* @return Una lista de vértices que forman el núcleo de la digráfica simétrica.
  	*/
 	public ArrayList<VerticeD> getNucleoSime(){
 		ArrayList<VerticeD> nucleo = new ArrayList<VerticeD>();
@@ -216,23 +216,23 @@ public class Digrafica{
 		VerticeD v1 = d2.vertices.get(0);
 		d2.vertices.remove(v1);
 		nucleo.add(v1);
-        return d2.getNucleoSimeAux(nucleo);
+        	return d2.getNucleoSimeAux(nucleo);
 	}
 
 	/**
-		* Obtiene el núcleo de una digráfica bipartita fuertemente conexa
-		*
-		* @param nucleo El núcleo actual obtenido hasta el momento.
-		* @return El núcleo de la digráfica.
+	* Obtiene el núcleo de una digráfica bipartita fuertemente conexa
+	*
+	* @param nucleo El núcleo actual obtenido hasta el momento.
+	* @return El núcleo de la digráfica.
 	*/
 	public ArrayList<VerticeD> getNucleoBiFCAux(ArrayList<VerticeD> nucleo){
 		if (this.vertices.size() == 0) {
-        	return nucleo;
-    	} else if(this.vertices.size() == 1){
+        		return nucleo;
+    		} else if(this.vertices.size() == 1){
 			nucleo.add(this.vertices.get(0));
 			return nucleo;
 		}else{
-        	VerticeD vi = this.vertices.get(0);
+        		VerticeD vi = this.vertices.get(0);
 			nucleo.add(vi);
 			for(VerticeD vAux : vi.inVecinos){
 				this.eliminaV(vAux);
@@ -244,27 +244,27 @@ public class Digrafica{
 				this.eliminaV(vAux3);
 			}
 			return this.getNucleoBiFCAux(nucleo);
-    	}
+    		}
 	}
 
 	/**
-		* Obtiene el núcleo de una digráfica bipartita fuertemente conexa.
-		*
-		* @return El núcleo de la digráfica.
+	* Obtiene el núcleo de una digráfica bipartita fuertemente conexa.
+	*
+	* @return El núcleo de la digráfica.
 	*/
 	public ArrayList<VerticeD> getNucleoBiFC(){
 		ArrayList<VerticeD> nucleo = new ArrayList<VerticeD>();
 		Digrafica d2 = this.clonar();
-        return d2.getNucleoSimeAux(nucleo);
+        	return d2.getNucleoSimeAux(nucleo);
 	}
 
 	/**
-		* Método auxiliar utilizado para encontrar el núcleo de una digráfica bipartita.
-		* Este método realiza una serie de pasos para calcular el núcleo, incluida la identificación de componentes fuertemente conexas terminales,
-		* la obtención de una digráfica inducida y la determinación del núcleo.
-		*
-		* @param nucleo La lista de vértices que representan el núcleo actual.
-		* @return El núcleo de la digráfica, que es un conjunto de vértices.
+	* Método auxiliar utilizado para encontrar el núcleo de una digráfica bipartita.
+	* Este método realiza una serie de pasos para calcular el núcleo, incluida la identificación de componentes fuertemente conexas terminales,
+	* la obtención de una digráfica inducida y la determinación del núcleo.
+	*
+	* @param nucleo La lista de vértices que representan el núcleo actual.
+	* @return El núcleo de la digráfica, que es un conjunto de vértices.
 	*/
 	public ArrayList<VerticeD> getNucleoBIAux(ArrayList<VerticeD> nucleo){
 		if(this.vertices.size() == 0){
@@ -299,23 +299,23 @@ public class Digrafica{
 	}
 
 	/**
-		* Obtiene el núcleo de la digráfica utilizando el algoritmo de Biconectividad Iterativa (BI).
-		* Este método crea una copia de la digráfica y luego llama al método auxiliar para obtener el núcleo.
-		*
-		* @return El núcleo de la digráfica, que es un conjunto de vértices.
+	* Obtiene el núcleo de la digráfica utilizando el algoritmo de Biconectividad Iterativa (BI).
+	* Este método crea una copia de la digráfica y luego llama al método auxiliar para obtener el núcleo.
+	*
+	* @return El núcleo de la digráfica, que es un conjunto de vértices.
 	*/
 	public ArrayList<VerticeD> getNucleoBI(){
 		ArrayList<VerticeD> nucleo = new ArrayList<VerticeD>();
 		Digrafica d2 = this.clonar();
-        return d2.getNucleoBIAux(nucleo);
+        	return d2.getNucleoBIAux(nucleo);
 	}
 
 	/**
-		* Verifica si un vértice es vecino de algún vértice en una lista de vértices.
-		*
-		* @param verticesAux La lista de vértices en la que se buscarán los vecinos.
-		* @param auxiliar El vértice cuya vecindad se verificará.
-		* @return true si el vértice es vecino de algún vértice en la lista, false en caso contrario.
+	* Verifica si un vértice es vecino de algún vértice en una lista de vértices.
+	*
+	* @param verticesAux La lista de vértices en la que se buscarán los vecinos.
+	* @param auxiliar El vértice cuya vecindad se verificará.
+	* @return true si el vértice es vecino de algún vértice en la lista, false en caso contrario.
 	*/
 	public boolean veificaVecinoLista(ArrayList<VerticeD> verticesAux, VerticeD auxiliar){
 		boolean vecino = false;
@@ -333,45 +333,44 @@ public class Digrafica{
 				vecino = true;
 			}
 		}
-
 		return vecino;
 	}
 
 	/**
-	    * Método que verifica si un conjunto de vértices es absorbente en la gráfica.
-	    * Un conjunto de vértices es absorbente si cada vértice en el conjunto y sus flechas pueden alcanzar todos los vértices de la gráfica.
-	    *
-	    * @param vertex El conjunto de vértices que se va a verificar.
-	    * @return true si el conjunto de vértices es absorbente, false en caso contrario.
-    */
-    public boolean esAbsorbente(ArrayList<VerticeD> vertex){
-        int cont = 0;
-        for(VerticeD v1 : vertex){
-            for(VerticeD v2 : this.vertices){
-                if(v1.equals(v2)){
-                    cont++;
-                }
-            }
-            for(Flecha f : this.flechas){
-                if(f.extremo2.equals(v1)){
-                    cont++;
-                }
-            }
-        }
-
-        if(cont >= this.vertices.size()){
-            return true;
-        }else{
-            return false;
-        }
-    }
+	* Método que verifica si un conjunto de vértices es absorbente en la gráfica.
+	* Un conjunto de vértices es absorbente si cada vértice en el conjunto y sus flechas pueden alcanzar todos los vértices de la gráfica.
+	*
+	* @param vertex El conjunto de vértices que se va a verificar.
+	* @return true si el conjunto de vértices es absorbente, false en caso contrario.
+    	*/
+    	public boolean esAbsorbente(ArrayList<VerticeD> vertex){
+        	int cont = 0;
+        	for(VerticeD v1 : vertex){
+            		for(VerticeD v2 : this.vertices){
+                		if(v1.equals(v2)){
+                    			cont++;
+                		}
+            		}
+            		for(Flecha f : this.flechas){
+                		if(f.extremo2.equals(v1)){
+                    			cont++;
+                		}
+            		}
+        	}
+		
+		if(cont >= this.vertices.size()){
+			return true;
+		}else{
+			return false;
+		}
+	}
 
 	/**
-	    * Método que devuelve una representación en cadena de la gráfica.
-	    * La representación en cadena incluye los conjuntos de vértices y flechas.
-	    *
-	    * @return Una cadena que representa la gráfica.
-    */
+	* Método que devuelve una representación en cadena de la gráfica.
+	* La representación en cadena incluye los conjuntos de vértices y flechas.
+	*
+	* @return Una cadena que representa la gráfica.
+    	*/
 	public String toString(){
 		//Crea una representacion en cadena del conjunto de vertices
 		String vert = "{";
@@ -402,46 +401,46 @@ public class Digrafica{
 	}
 
 	/**
-		* Realiza un recorrido en profundidad (DFS) en la digrafica comenzando desde el vértice especificado.
-		* Devuelve una lista de vértices en orden post-orden, es decir, en el orden en que son visitados por el algoritmo DFS.
-		*
-		* @param v El vértice desde el cual iniciar el recorrido DFS.
-		* @return Una lista de vértices en orden post-orden.
+	* Realiza un recorrido en profundidad (DFS) en la digrafica comenzando desde el vértice especificado.
+	* Devuelve una lista de vértices en orden post-orden, es decir, en el orden en que son visitados por el algoritmo DFS.
+	*
+	* @param v El vértice desde el cual iniciar el recorrido DFS.
+	* @return Una lista de vértices en orden post-orden.
 	*/
 	public ArrayList<VerticeD> dfs(VerticeD v) {
-	    ArrayList<VerticeD> postOrden = new ArrayList<VerticeD>();
-	    if (!v.visitado) {
-	        dfsVisitados(v, postOrden);
-	    }
+		ArrayList<VerticeD> postOrden = new ArrayList<VerticeD>();
+		if (!v.visitado) {
+			dfsVisitados(v, postOrden);
+		}
 		for (VerticeD aux : postOrden) {
- 		   aux.visitado = false;
+			aux.visitado = false;
  	   	}
-	    return postOrden;
+		return postOrden;
 	}
 
 	/**
-		* Realiza un recorrido en profundidad (DFS) en la digrafica comenzando desde el vértice especificado.
-		* Marca cada vértice visitado durante el recorrido y agrega los vértices al orden post-orden.
-		*
-		* @param v El vértice actual en el recorrido DFS.
-		* @param postOrden Una lista que almacena los vértices en orden post-orden.
+	* Realiza un recorrido en profundidad (DFS) en la digrafica comenzando desde el vértice especificado.
+	* Marca cada vértice visitado durante el recorrido y agrega los vértices al orden post-orden.
+	*
+	* @param v El vértice actual en el recorrido DFS.
+	* @param postOrden Una lista que almacena los vértices en orden post-orden.
 	*/
 	public void dfsVisitados(VerticeD v, ArrayList<VerticeD> postOrden) {
-	    v.visitado = true;
-	    for (VerticeD vecino : v.exVecinos) {
-	        if (!vecino.visitado) {
-	            dfsVisitados(vecino, postOrden);
-	        }
-	    }
-	    postOrden.add(v); // Agregar el vértice al stack después de visitar todos sus vecinos
+		v.visitado = true;
+		for (VerticeD vecino : v.exVecinos) {
+	        	if (!vecino.visitado) {
+	            		dfsVisitados(vecino, postOrden);
+	        	}
+	    	}
+		postOrden.add(v); // Agregar el vértice al stack después de visitar todos sus vecinos
 	}
 
 	/**
-		* Realiza un algoritmo de Kosaraju para encontrar las componentes fuertemente conexas de la grafica dirigida.
-		* Este método es auxiliar y se utiliza para encontrar las componentes fuertemente conexas recursivamente.
-		*
-		* @param composFC La lista de componentes fuertemente conexas.
-		* @return Una lista de componentes fuertemente conexas de la digrafica.
+	* Realiza un algoritmo de Kosaraju para encontrar las componentes fuertemente conexas de la grafica dirigida.
+	* Este método es auxiliar y se utiliza para encontrar las componentes fuertemente conexas recursivamente.
+	*
+	* @param composFC La lista de componentes fuertemente conexas.
+	* @return Una lista de componentes fuertemente conexas de la digrafica.
 	*/
 	public ArrayList<ArrayList<VerticeD>> kosarajuAux(ArrayList<ArrayList<VerticeD>> composFC) {
 	   	//Encontrar el primer vértice no visitado
@@ -467,22 +466,21 @@ public class Digrafica{
 			if(llego.contains(raiz)){
 				componente.add(vi);
 			}
-	   }
-
-	   //marcamos los vertices de la componente como true, para que no se metan a otra componente
-	   for (VerticeD aux : componente) {
-		  aux.visitado = true;
-	   }
-	   composFC.add(componente);
-
-	   return this.kosarajuAux(composFC);
+	   	}
+		
+		//marcamos los vertices de la componente como true, para que no se metan a otra componente
+	   	for (VerticeD aux : componente) {
+			aux.visitado = true;
+		}
+		composFC.add(componente);
+		return this.kosarajuAux(composFC);
 	}
 
 	/**
-		* Implementa el algoritmo de Kosaraju para encontrar las componentes fuertemente conexas de la digrafica.
-		* Este método inicia el proceso de búsqueda de componentes fuertemente conexas llamando al método auxiliar kosarajuAux.
-		*
-		* @return Una lista de listas que contiene las componentes fuertemente conexas de la digrafica.
+	* Implementa el algoritmo de Kosaraju para encontrar las componentes fuertemente conexas de la digrafica.
+	* Este método inicia el proceso de búsqueda de componentes fuertemente conexas llamando al método auxiliar kosarajuAux.
+	*
+	* @return Una lista de listas que contiene las componentes fuertemente conexas de la digrafica.
 	*/
 	public ArrayList<ArrayList<VerticeD>> kosaraju(){
 		ArrayList<ArrayList<VerticeD>> compos = new ArrayList<ArrayList<VerticeD>>();
@@ -490,9 +488,9 @@ public class Digrafica{
 	}
 
 	/**
-		* Obtiene un vértice no visitado en en la digrafica.
-		*
-		* @return El primer vértice no visitado encontrado en la digrafica, o null si todos los vértices han sido visitados.
+	* Obtiene un vértice no visitado en en la digrafica.
+	*
+	* @return El primer vértice no visitado encontrado en la digrafica, o null si todos los vértices han sido visitados.
 	*/
 	public VerticeD obtenerNovisitado(){
 		VerticeD x = null;
@@ -505,10 +503,10 @@ public class Digrafica{
 	}
 
 	/**
-		* Obtiene una componente terminal de la digráfica utilizando el algoritmo de Kosaraju.
-		* Una componente terminal es aquella que no tiene flechas salientes.
-		*
-		* @return Una lista de vértices que representa una componente terminal de la digráfica.
+	* Obtiene una componente terminal de la digráfica utilizando el algoritmo de Kosaraju.
+	* Una componente terminal es aquella que no tiene flechas salientes.
+	*
+	* @return Una lista de vértices que representa una componente terminal de la digráfica.
 	*/
 	public ArrayList<VerticeD> obtenerCompoTerminal(){
 		ArrayList<ArrayList<VerticeD>> compos = this.kosaraju();
@@ -523,10 +521,10 @@ public class Digrafica{
 	}
 
 	/**
-		* Verifica si una componente de la digráfica es terminal, es decir, si no tiene flechas salientes fuera de la componente.
-		*
-		* @param compo La lista de vértices que representa una componente de la digráfica.
-		* @return true si la componente es terminal, false en caso contrario.
+	* Verifica si una componente de la digráfica es terminal, es decir, si no tiene flechas salientes fuera de la componente.
+	*
+	* @param compo La lista de vértices que representa una componente de la digráfica.
+	* @return true si la componente es terminal, false en caso contrario.
 	*/
 	public boolean verificarCompoTerminal(ArrayList<VerticeD> compo){
 		boolean terminal = true;
@@ -542,35 +540,35 @@ public class Digrafica{
 	}
 
 	/**
-		* Obtiene el núcleo de la digráfica según la opción especificada.
-		* La opción determina el método utilizado para calcular el núcleo.
-		*
-		* @param eleccion La opción que indica el método a utilizar para obtener el núcleo.
-		* @return El núcleo de la digráfica, que es un conjunto de vértices.
-		*         Si la elección no es válida o no se encuentra un método correspondiente, devuelve null.
+	* Obtiene el núcleo de la digráfica según la opción especificada.
+	* La opción determina el método utilizado para calcular el núcleo.
+	*
+	* @param eleccion La opción que indica el método a utilizar para obtener el núcleo.
+	* @return El núcleo de la digráfica, que es un conjunto de vértices.
+	* Si la elección no es válida o no se encuentra un método correspondiente, devuelve null.
 	*/
 	public ArrayList<VerticeD> getNucleo(int eleccion){
 		ArrayList<VerticeD> nucleo = new ArrayList<VerticeD>();
 		switch (eleccion) {
-            case 1:
+			case 1:
 				nucleo = this.getNucleoAci();
-                break;
-            case 2:
+                		break;
+            		case 2:
 				nucleo = this.getNucleoSime();
-                break;
-            case 3:
+                		break;
+            		case 3:
 				nucleo = this.getNucleoBiFC();
-                break;
-            case 4:
+                		break;
+            		case 4:
 				nucleo = this.getNucleoBI();
-                break;
+                		break;
 			case 5:
 				nucleo = this.getNucleoBI(); //pruebas provicional
 				break;
-            default:
+            		default:
 				nucleo = null;
-                break;
-        }
+                		break;
+        	}
 		return nucleo;
 	}
 
