@@ -5,18 +5,18 @@ import java.util.*;
 	* Una gráfica dirigida consiste en un conjunto de vértices (VerticeD) y un conjunto de flechas (Flecha) que conectan los vértices.
 */
 public class Digrafica{
-
+	
 	//Atributos de la clase grafica
 	ArrayList<VerticeD> vertices;
 	ArrayList<Flecha> flechas;
 
 	/**
-	    * Constructor de una gráfica dirigida.
-	    * Crea una gráfica con los vértices y flechas especificados.
-	    *
-	    * @param vertices Los vértices que forman parte de la gráfica.
-	    * @param flechas Las flechas que conectan los vértices de la gráfica.
-    */
+	* Constructor de una gráfica dirigida.
+	* Crea una gráfica con los vértices y flechas especificados.
+	*
+	* @param vertices Los vértices que forman parte de la gráfica.
+	* @param flechas Las flechas que conectan los vértices de la gráfica.
+ 	*/
 	public Digrafica(ArrayList<VerticeD> vertices, ArrayList<Flecha> flechas){
 		this.vertices = vertices;
 		this.flechas = flechas;
@@ -34,52 +34,52 @@ public class Digrafica{
 	}
 
 	/**
-	    * Método que clona la gráfica actual.
-	    * Crea una copia exacta de la gráfica, incluyendo los vértices y flechas.
-	    *
-	    * @return Una nueva instancia de Digrafica que es una copia de la gráfica actual.
-    */
-    public Digrafica clonar(){
+ 	* Método que clona la gráfica actual.
+	* Crea una copia exacta de la gráfica, incluyendo los vértices y flechas.
+	*
+	* @return Una nueva instancia de Digrafica que es una copia de la gráfica actual.
+    	*/
+    	public Digrafica clonar(){
 		ArrayList<VerticeD> vertices2 = new ArrayList<VerticeD>();
-      	ArrayList<Flecha> flechas2 = new ArrayList<Flecha>();
+		ArrayList<Flecha> flechas2 = new ArrayList<Flecha>();
 
-	    // Clonar los vértices y agregarlos a vertices2
-	    for (VerticeD v : this.vertices) {
-	    	VerticeD v2 = new VerticeD(v.identificador);
+	    	// Clonar los vértices y agregarlos a vertices2
+	    	for (VerticeD v : this.vertices) {
+			VerticeD v2 = new VerticeD(v.identificador);
 			vertices2.add(v2);
 		}
-
-	    // Clonar las flechas y agregarlas a flechas2
-	    for (Flecha a : this.flechas) {
-	        // Encontrar los vértices correspondientes en vertices2
-	        VerticeD v1 = null;
-	        VerticeD v2 = null;
-	        for (VerticeD v : vertices2) {
-	            if (v.identificador.equals(a.extremo1.identificador)) {
-	                v1 = v;
-	            }
-	            if (v.identificador.equals(a.extremo2.identificador)) {
-	                v2 = v;
-	            }
-	        }
+		
+		// Clonar las flechas y agregarlas a flechas2
+		for (Flecha a : this.flechas) {
+	        	// Encontrar los vértices correspondientes en vertices2
+	        	VerticeD v1 = null;
+	        	VerticeD v2 = null;
+	        	for (VerticeD v : vertices2) {
+	            		if (v.identificador.equals(a.extremo1.identificador)) {
+	                		v1 = v;
+	            		}
+	            		if (v.identificador.equals(a.extremo2.identificador)) {
+	                		v2 = v;
+	            		}
+	        	}
 
 	    	Flecha a2 = new Flecha(v1, v2);
 	    	flechas2.add(a2);
-	    }
-      return new Digrafica(vertices2, flechas2);
-    }
+		}
+      		return new Digrafica(vertices2, flechas2);
+	}
 
 	/**
-	    * Método que elimina un vértice de la gráfica.
-	    * Elimina el vértice especificado y todas las flechas que lo involucran de la gráfica.
-	    *
-	    * @param v El vértice que se va a eliminar de la gráfica.
-    */
+ 	* Método que elimina un vértice de la gráfica.
+	* Elimina el vértice especificado y todas las flechas que lo involucran de la gráfica.
+	*
+	* @param v El vértice que se va a eliminar de la gráfica.
+ 	*/
 	public void eliminaV(VerticeD v){
 		this.vertices.remove(v);
 		for(VerticeD aux : this.vertices){
 			aux.inVecinos.remove(v);
-            aux.exVecinos.remove(v);
+			aux.exVecinos.remove(v);
 		}
 		ArrayList<Flecha> eliminadas = new ArrayList<Flecha>();
 		for(Flecha a : this.flechas){
@@ -93,11 +93,11 @@ public class Digrafica{
 	}
 
 	/**
-	    * Método que elimina una flecha de la gráfica.
-	    * Elimina la flecha especificada y actualiza los vecinos de los vértices involucrados.
-	    *
-	    * @param a La flecha que se va a eliminar de la gráfica.
-    */
+ 	* Método que elimina una flecha de la gráfica.
+	* Elimina la flecha especificada y actualiza los vecinos de los vértices involucrados.
+ 	*
+  	* @param a La flecha que se va a eliminar de la gráfica.
+   	*/
 	public void eliminaA(Flecha a){
 		this.flechas.remove(a);
 		for(VerticeD v : this.vertices){
@@ -109,6 +109,12 @@ public class Digrafica{
 		}
 	}
 
+	/**
+ 	* Método que devuelve una digráfica inducida por un conjunto de vertices.
+	* Elimina la flecha especificada y actualiza los vecinos de los vértices involucrados.
+ 	*
+  	* @param a La flecha que se va a eliminar de la gráfica.
+   	*/
 	public Digrafica getInducida(ArrayList<VerticeD> conjunto){
 		Digrafica inducida = this.clonar();
 		ArrayList<VerticeD> conjuntoAux = new ArrayList<VerticeD>();
@@ -132,7 +138,7 @@ public class Digrafica{
 	}
 
 	/**
-		* Método auxiliar utilizado para obtener el núcleo de una digráfica aciclica.
+* Método auxiliar utilizado para obtener el núcleo de una digráfica aciclica.
 		* Este método se encarga de encontrar y eliminar los vértices que forman parte del núcleo de la gráfica.
 		*
 		* @param nucleo La lista que almacenará los vértices que forman el núcleo de la gráfica.
